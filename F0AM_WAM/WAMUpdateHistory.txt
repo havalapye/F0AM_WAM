@@ -1,0 +1,12 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%            update log for WAM             %%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Jan. 2017
+Original WAM upload
+
+Oct. 10, 2017
+New WAM files uploaded
+-added missing file: M_calc.m
+-updated line 92 of dydt_eval_GP.m to account for wall loss and dilution of initial OA seed
+

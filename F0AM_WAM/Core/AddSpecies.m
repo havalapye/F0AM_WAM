@@ -40,4 +40,30 @@ if exist('RO2ToAdd','var')
     clear iC iSp SpNow RO2ToAdd
 end
 
+%%%%%ADD particle species%%%%%
+if exist('OAsToAdd')==1
+    iC = find(cellfun('isempty',OAnames),1,'first'); %index for first empty cell
+    for iSp = 1:length(OAsToAdd)
+        SpNow = OAsToAdd{iSp};
+        if ismember(SpNow,OAnames(1:iC-1)), continue;
+        else
+            OAnames{iC} = SpNow;
+            iC = iC + 1; %increment species index
+        end
+    end
+    clear iC iSp SpNow OAsToAdd
+end
 
+%%%%%ADD Vapors to be wall-lost%%%%%
+if exist('VaporsToAdd')==1
+    iC = find(cellfun('isempty',VaporNames),1,'first'); %index for first empty cell
+    for iSp = 1:length(VaporsToAdd)
+        SpNow = VaporsToAdd{iSp};
+        if ismember(SpNow,VaporNames(1:iC-1)), continue;
+        else
+            VaporNames{iC} = SpNow;
+            iC = iC + 1; %increment species index
+        end
+    end
+    clear iC iSp SpNow VaporsToAdd
+end

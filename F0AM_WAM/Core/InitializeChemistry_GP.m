@@ -1,4 +1,4 @@
-function [Cnames,Rnames,k,f,iG,iRO2,jcorr,jcorr_all] = InitializeChemistry(Met,ChemFiles,ModelOptions,firstCall)
+function [Cnames,Rnames,k,f,iG,iRO2,jcorr,jcorr_all,iOA,iVapor] = InitializeChemistry_GP(Met,ChemFiles,ModelOptions,firstCall)
 % function [Cnames,Rnames,k,f,iG,iRO2,jcorr,jcorr_all] = InitializeChemistry(Met,ChemFiles,ModelOptions,FirstCall)
 % Generates parameters for calculating time rate of change of chemical species
 % using the dydt_eval function.
@@ -64,8 +64,10 @@ k        = zeros(nIc,nRx); %reaction rate constant matrix
 Gstr     = cell(nRx,2);    %cell array to collect reactant names
 Cnames   = cell(nSp,1);    %cell array of species names
 RO2names = cell(nSp,1);    %cell array of RO2 names
+OAnames = cell(nSp,1); %cell array of particle species names
+VaporNames = cell(nSp,1); %cell array of Vapors contributing to particles names
 
-SpeciesToAdd = {'ONE';'RO2'}; %Placeholder species
+SpeciesToAdd = {'ONE';'RO2'; 'ttlOA'; 'OA'; 'Rp'; 'SA'; 'Vseed'}; %Placeholder species
 AddSpecies
 
 %%%%% GENERIC RATE CONSTANTS %%%%%
@@ -123,6 +125,12 @@ Cnames = Cnames(iC);
 iR = ~cellfun('isempty',RO2names); %flag non-empty cells
 RO2names = RO2names(iR);
 [~,iRO2] = ismember(RO2names,Cnames); %generate index, iRO2, for RO2 locations
+ip = find(~cellfun('isempty',OAnames),1,'last'); %index for last non-empty cell
+OAnames = OAnames(1:ip);
+[~, iOA] = ismember(OAnames, Cnames); %generate index, iOA, for particle species locations
+ip = find(~cellfun('isempty',VaporNames),1,'last'); %index for last non-empty cell
+VaporNames = VaporNames(1:ip);
+[~, iVapor] = ismember(VaporNames, Cnames); %generate index, iVap, for particle vapor precursor locations
 
 eval(['f=sparse([' fstr ']);']); %concatenate coefficient vectors
 f = f(1:i,:);
